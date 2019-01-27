@@ -1,0 +1,31 @@
+using clang ;
+using testing ;
+
+lib boost_unit_test_framework ;
+lib PocoUtil : : <name>PocoUtil <search>/usr/lib/ : : <include>/usr/include ;
+lib PocoFoundation : : <name>PocoFoundation <search>/usr/lib/ : : <include>/usr/include ;
+lib boost_system : : <name>boost_system <search>/usr/lib/ : : <include>/usr/include ;
+
+project PerformanceHelper
+	:
+		requirements
+		<variant>release
+		<cxxflags>-std=c++11
+		<include>include
+	;
+
+lib perf_helper
+	:
+		[ glob src/lib/*.cpp ]
+		PocoUtil
+		PocoFoundation
+	;
+
+exe Example
+	:
+		[ glob src/example/*.cpp ]
+    perf_helper
+		boost_system
+	:
+		<include>./include/
+	;
